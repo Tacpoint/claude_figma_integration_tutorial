@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:     #1E2761;
+  --accent:   #4F6FD4;
+  --ice:      #CADCFC;
+  --off:      #F4F6FB;
+  --muted:    #8896B3;
+  --white:    #ffffff;
+  --card-bg:  #ffffff;
+  --card-border: #dde6f8;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--off);
+}
+
+/* ── Shell ───────────────────────────────────────── */
+.shell {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── Left panel ──────────────────────────────────── */
+.panel-left {
+  position: relative;
+  width: 38%;
+  background: var(--navy);
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  overflow: hidden;
+}
+
+.hero-badge,
+.hero-title,
+.hero-sub,
+.hero-tag {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.hero-badge.visible  { opacity: 1; transform: none; transition-delay: 0.1s; }
+.hero-title.visible  { opacity: 1; transform: none; transition-delay: 0.25s; }
+.hero-sub.visible    { opacity: 1; transform: none; transition-delay: 0.4s; }
+.hero-tag.visible    { opacity: 1; transform: none; transition-delay: 0.55s; }
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(79,111,212,0.25);
+  border: 1px solid rgba(79,111,212,0.4);
+  border-radius: 99px;
+  padding: 0.35rem 0.9rem;
+  color: var(--ice);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #5eead4;
+  box-shadow: 0 0 6px #5eead4;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+}
+
+.title-line {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  color: var(--white);
+  display: block;
+}
+
+.title-line.accent {
+  color: var(--ice);
+  font-style: italic;
+}
+
+.hero-sub {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.65;
+  max-width: 26ch;
+}
+
+.hero-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.tag-arrow {
+  animation: bounce 1.6s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(4px); }
+}
+
+/* ── Orbit decoration ────────────────────────────── */
+.orbit-wrap {
+  position: absolute;
+  bottom: -3rem;
+  right: -3rem;
+  width: 13rem;
+  height: 13rem;
+  pointer-events: none;
+}
+
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(79,111,212,0.25);
+}
+
+.ring2 {
+  inset: 1.5rem;
+  border-color: rgba(202,220,252,0.15);
+  animation: spin 18s linear infinite;
+}
+
+.ring1 {
+  animation: spin 28s linear infinite reverse;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.orbit-core {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  filter: drop-shadow(0 0 18px rgba(79,111,212,0.6));
+}
+
+/* ── Right panel ─────────────────────────────────── */
+.panel-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 2.5rem 1.5rem;
+  gap: 1rem;
+}
+
+/* ── Cards grid ──────────────────────────────────── */
+.cards-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* ── Capability card ─────────────────────────────── */
+.cap-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.4rem 1.4rem 1.2rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease,
+    border-color 0.25s,
+    box-shadow 0.25s,
+    background 0.25s;
+  box-shadow: 0 2px 10px rgba(30,39,97,0.06);
+}
+
+.cap-card.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.cap-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(79,111,212,0.14);
+  transform: translateY(-2px);
+}
+
+.cap-card.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  box-shadow: 0 8px 32px rgba(30,39,97,0.25);
+}
+
+.cap-card.active .cap-icon { background: rgba(79,111,212,0.3); }
+.cap-card.active h3        { color: var(--ice); }
+.cap-card.active p         { color: var(--muted); }
+.cap-card.active .cap-arrow{ color: var(--accent); }
+
+/* Left accent stripe */
+.cap-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--accent);
+  border-radius: 4px 0 0 4px;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.3s ease;
+}
+
+.cap-card:hover::before,
+.cap-card.active::before {
+  transform: scaleY(1);
+}
+
+.cap-icon {
+  width: 2.4rem; height: 2.4rem;
+  border-radius: 10px;
+  background: var(--off);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+.cap-body {
+  flex: 1;
+}
+
+.cap-body h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.05rem;
+  color: var(--navy);
+  margin-bottom: 0.35rem;
+  transition: color 0.25s;
+}
+
+.cap-body p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.6;
+  transition: color 0.25s;
+}
+
+.cap-arrow {
+  font-size: 1rem;
+  color: var(--accent);
+  align-self: flex-end;
+  transition: transform 0.25s, color 0.25s;
+}
+
+.cap-card:hover .cap-arrow {
+  transform: translateX(3px);
+}
+
+/* ── Footer ──────────────────────────────────────── */
+.slide-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.72rem;
+  color: var(--muted);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--card-border);
+}
+
+.footer-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}

@@ -1,0 +1,31 @@
+# Dependencies
+agent-slide/node_modules/
+
+# Vite build output
+agent-slide/dist/
+agent-slide/.vite/
+
+# Local env files
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# pptxgenjs temp files
+*.tmp
+
