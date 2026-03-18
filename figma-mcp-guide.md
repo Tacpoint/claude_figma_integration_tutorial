@@ -27,7 +27,7 @@ This unlocks Claude's ability to read your file system, run terminal commands, a
 
 You can add the Figma MCP server directly inside Claude Desktop — no config file editing needed:
 
-1. Go to **Settings → Integrations** (or **Settings → MCP Servers**)
+1. Go to **Settings → Integrations** (or **Settings → Developer -> MCP Servers**)
 2. Click **Add MCP Server**
 3. Fill in the fields:
    - **Name:** `figma`
