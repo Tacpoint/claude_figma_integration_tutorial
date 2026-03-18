@@ -40,7 +40,7 @@ You can add the Figma MCP server directly inside Claude Desktop — no config fi
 > claude mcp add --scope user --transport http figma https://mcp.figma.com/mcp
 > ```
 
-### Windows fallback — edit the config file manually
+### Manual fallback — edit the config file manually
 
 If the Settings UI isn't available in your version of Claude Desktop, you can add the MCP server by editing the config file directly.
 
@@ -115,23 +115,40 @@ agent-slide/
 
 ---
 
-## 5. Get Your Figma File URL
+## 5. Create a Dedicated Figma Project and Page for Claude Exports
 
-In the **Figma Desktop** app:
+Before copying any URLs, set up a clean landing zone in Figma so Claude's screenshots don't clutter your existing design work.
 
-- To point Claude at a **specific page**: right-click the page tab at the bottom of the canvas and select **Copy link to page**
-- To point Claude at a **specific frame**: right-click the frame on the canvas and select **Copy link**
+**Create a new project (optional but recommended):**
+1. In Figma Desktop, go to your **Home** screen
+2. Click **New project** and name it something like `Claude Sandbox` or `Claude Code Exports`
+3. Open the new project and create a new file inside it
+
+**Add a dedicated page:**
+1. Inside your file, look at the **Pages panel** on the left sidebar
+2. Click the **+** button next to "Pages" to add a new page
+3. Name it something clear like `Claude Exports` or `Screenshots`
+
+This way every screenshot Claude sends lands on its own isolated page, and your actual design work stays untouched. You can periodically clear the page or promote anything useful into your real project files.
+
+---
+
+## 6. Get Your Figma Page URL
+
+With your dedicated page created and selected:
+
+1. Right-click the page tab in the left sidebar and select **Copy link to page**
 
 The URL will look like:
 ```
 https://www.figma.com/design/FILEID/filename?node-id=0-1&m=dev
 ```
 
-Keep this handy — you'll paste it into your Claude prompts.
+Save this URL — you'll paste it into all your Claude prompts. Using the page link (rather than a frame link) lets Claude drop new frames anywhere on the page without you having to update the URL each time.
 
 ---
 
-## 6. Push Your React App → Figma
+## 7. Push Your React App → Figma
 
 With your Vite dev server running (`npm run dev`), open Claude Desktop and use a prompt like this:
 
@@ -151,9 +168,21 @@ Claude will:
 
 ---
 
-## 7. Pull a Figma Design → React
+## 8. Pull a Figma Design → React
 
-To go the other direction — translating a Figma frame into React code — use a prompt like:
+### What you need first
+
+The remote Figma MCP server (`https://mcp.figma.com/mcp`) — which this guide uses — is available on **all Figma plans and seat types**, so reading design context and generating code works for everyone.
+
+> **Dev Mode note:** You do not need Dev Mode toggled on in Figma Desktop to use the MCP with Claude. Dev Mode is a separate Figma feature for inspecting designs. The MCP reads design data directly via the API — it doesn't depend on the Dev Mode UI. However, if your team is on a paid plan with Dev or Full seats, the **desktop MCP server** is also available as a local alternative.
+
+### Get the frame link
+
+1. In Figma Desktop, select the frame you want to translate into code
+2. Right-click it and choose **Copy link** (or copy the URL from your browser's address bar)
+3. The URL will contain a `node-id` parameter identifying the exact frame
+
+### Run the prompt in Claude Desktop
 
 ```
 Look at the frame called "Agent Card – Hover State" in this Figma file:
@@ -163,7 +192,7 @@ Translate it into a React component using the same CSS variable conventions
 already used in App.css. Match the spacing, colors, and typography exactly.
 ```
 
-Claude will read the Figma node's design properties via the MCP and write a matching React component directly into your project.
+Claude will read the frame's design properties — colors, fonts, spacing, layout — via the MCP and write a matching React component directly into your project.
 
 > **Tip:** The more context you give Claude about your existing code conventions (CSS variables, component patterns, file structure), the better the generated code will match your codebase.
 
