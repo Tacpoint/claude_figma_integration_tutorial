@@ -23,17 +23,39 @@ This unlocks Claude's ability to read your file system, run terminal commands, a
 
 ---
 
-## 2. Install the Figma MCP Server
+## 2. Add the Figma MCP Server
 
-MCP servers are configured via a JSON settings file that Claude Desktop reads on launch.
+You can add the Figma MCP server directly inside Claude Desktop — no config file editing needed:
 
-Open (or create) the Claude Desktop config file at:
+1. Go to **Settings → Integrations** (or **Settings → MCP Servers**)
+2. Click **Add MCP Server**
+3. Fill in the fields:
+   - **Name:** `figma`
+   - **Transport:** `HTTP`
+   - **URL:** `https://mcp.figma.com/mcp`
+4. Click **Save** and restart Claude Desktop when prompted
 
+> **Prefer the terminal?** You can also add it via Claude Code's built-in CLI by running this in any chat:
+> ```
+> claude mcp add --scope user --transport http figma https://mcp.figma.com/mcp
+> ```
+
+### Windows fallback — edit the config file manually
+
+If the Settings UI isn't available in your version of Claude Desktop, you can add the MCP server by editing the config file directly.
+
+**macOS:**
 ```
 ~/Library/Application Support/Claude/claude_desktop_config.json
 ```
 
-Add the Figma MCP entry:
+**Windows:**
+```
+%APPDATA%\Claude\claude_desktop_config.json
+```
+(Paste that path into File Explorer's address bar and hit Enter)
+
+In both cases, add the following — creating the file if it doesn't exist:
 
 ```json
 {
@@ -46,9 +68,7 @@ Add the Figma MCP entry:
 }
 ```
 
-If you already have other MCP servers configured, just add the `"figma"` block inside `"mcpServers"`.
-
-**Restart Claude Desktop** after saving the file.
+Save the file and restart Claude Desktop.
 
 ---
 
@@ -163,7 +183,7 @@ Claude will read the Figma node's design properties via the MCP and write a matc
 ## Troubleshooting
 
 **`/mcp` shows no Figma server**
-Double-check your `claude_desktop_config.json` for typos and restart Claude Desktop. JSON must be valid — use a linter if unsure.
+Go back to Settings → Integrations, confirm the server is saved, and restart Claude Desktop.
 
 **Authentication link expired**
 Type `/mcp` again in Claude Desktop — it will generate a fresh browser link.
@@ -179,9 +199,6 @@ Use **Copy link** from Figma Desktop rather than copying from a browser tab — 
 ## Quick Reference
 
 ```bash
-# Config file location
-~/Library/Application Support/Claude/claude_desktop_config.json
-
 # Start React app
 cd agent-slide && npm run dev
 ```
